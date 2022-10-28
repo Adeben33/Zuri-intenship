@@ -1,6 +1,9 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+)
 
 type Info struct {
 	SlackUsername string `json:"slack_username"`
@@ -11,6 +14,7 @@ type Info struct {
 
 func main() {
 	router := gin.Default()
+	router.Use(cors.Default())
 	router.GET("/", getting)
 	router.Run(":8080")
 }
