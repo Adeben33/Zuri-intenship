@@ -5,7 +5,7 @@ import (
 )
 
 type Info struct {
-	SlackUsername string `json:"slack_username"`
+	SlackUsername string `json:"slackUsername"`
 	Backend       bool   `json:"backend"`
 	Age           int    `json:"age"`
 	Bio           string `json:"bio"`
@@ -41,5 +41,5 @@ func getting(ctx *gin.Context) {
 		Age:           25,
 		Bio:           "I am a beginner golang developer interest in creating worthy portfolio project",
 	}
-	ctx.JSON(200, details)
+	ctx.PureJSON(200, details)
 }
