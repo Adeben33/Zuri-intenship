@@ -58,7 +58,7 @@ func enum(c *gin.Context) {
 			addedNumberReturnStruct.SlackUsername = "Adeben33"
 			addedNumberReturnStruct.Result = addedNumber
 			addedNumberReturnStruct.OperationType = newOperation.OperationType
-			addedNumberReturnStruct.OperationType = "addition"
+			addedNumberReturnStruct.OperationType = "Addition"
 			c.JSON(200, addedNumberReturnStruct)
 		} else if newOperation.OperationType == "subtraction" {
 		} else if strings.Index(newOperation.OperationType, "sub") != -1 {
@@ -67,7 +67,7 @@ func enum(c *gin.Context) {
 			NumberReturnStruct.SlackUsername = "Adeben33"
 			NumberReturnStruct.Result = Number
 			NumberReturnStruct.OperationType = newOperation.OperationType
-			NumberReturnStruct.OperationType = "subtraction"
+			NumberReturnStruct.OperationType = "Subtraction"
 			c.JSON(200, NumberReturnStruct)
 		} else if newOperation.OperationType == "multiplication" {
 		} else if strings.Index(newOperation.OperationType, "mul") != -1 {
@@ -76,7 +76,7 @@ func enum(c *gin.Context) {
 			NumberReturnStruct.SlackUsername = "Adeben33"
 			NumberReturnStruct.Result = Number
 			NumberReturnStruct.OperationType = newOperation.OperationType
-			NumberReturnStruct.OperationType = "multiplication"
+			NumberReturnStruct.OperationType = "Multiplication"
 			c.JSON(200, NumberReturnStruct)
 		}
 	}
