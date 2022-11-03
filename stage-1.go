@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type Info struct {
@@ -9,6 +10,12 @@ type Info struct {
 	Backend       bool   `json:"backend"`
 	Age           int    `json:"age"`
 	Bio           string `json:"bio"`
+}
+
+type Operation struct {
+	OperationType string `json:"operation_type"`
+	X             int    `json:"x"`
+	Y             int    `json:"y"`
 }
 
 func CORSMiddleware() gin.HandlerFunc {
@@ -31,9 +38,46 @@ func main() {
 	//router.Use(cors.Default())
 	router.Use(CORSMiddleware())
 	router.GET("/", getting)
+	router.POST("/operation", enum)
 	router.Run(":8080")
 }
 
+func enum(c *gin.Context) {
+	var newOperation Operation
+	if err := c.BindJSON(&newOperation); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	type returnStruct struct {
+		SlackUsername string `json:"slackUsername"`
+		Result        int    `json:"result"`
+		OperationType string `json:"operation_Type"`
+	}
+
+	if newOperation.OperationType == "addition" {
+		var addedNumberReturnStruct returnStruct
+		addedNumber := newOperation.X + newOperation.Y
+		addedNumberReturnStruct.SlackUsername = "Adeben33"
+		addedNumberReturnStruct.Result = addedNumber
+		addedNumberReturnStruct.OperationType = newOperation.OperationType
+		c.JSON(200, addedNumberReturnStruct)
+	} else if newOperation.OperationType == "subtraction" {
+		var NumberReturnStruct returnStruct
+		Number := newOperation.X - newOperation.Y
+		NumberReturnStruct.SlackUsername = "Adeben33"
+		NumberReturnStruct.Result = Number
+		NumberReturnStruct.OperationType = newOperation.OperationType
+		c.JSON(200, NumberReturnStruct)
+	} else if newOperation.OperationType == "multiplication" {
+		var NumberReturnStruct returnStruct
+		Number := newOperation.X * newOperation.Y
+		NumberReturnStruct.SlackUsername = "Adeben33"
+		NumberReturnStruct.Result = Number
+		NumberReturnStruct.OperationType = newOperation.OperationType
+		c.JSON(200, NumberReturnStruct)
+	}
+}
 func getting(ctx *gin.Context) {
 	details := Info{
 		SlackUsername: "Adeben33",
