@@ -48,7 +48,7 @@ func enum(c *gin.Context) {
 	type returnStruct struct {
 		SlackUsername string `json:"slackUsername"`
 		Result        int    `json:"result"`
-		OperationType string `json:"operation_tcdcype"`
+		OperationType string `json:"operation_type"`
 	}
 
 	if strings.Index(newOperation.OperationType, "add") != -1 {
