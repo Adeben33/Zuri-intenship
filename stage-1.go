@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -52,29 +54,81 @@ func enum(c *gin.Context) {
 	}
 
 	if strings.Index(newOperation.OperationType, "add") != -1 {
-		var addedNumberReturnStruct returnStruct
-		addedNumber := newOperation.X + newOperation.Y
-		addedNumberReturnStruct.SlackUsername = "Adeben33"
-		addedNumberReturnStruct.Result = addedNumber
-		addedNumberReturnStruct.OperationType = newOperation.OperationType
-		addedNumberReturnStruct.OperationType = "addition"
-		c.JSON(200, addedNumberReturnStruct)
+		re := regexp.MustCompile("[0-9]+")
+		numberSlice := re.FindAllString(string(newOperation.OperationType), -1)
+		if re.MatchString(string(newOperation.OperationType)) {
+			total := 0
+			for _, value := range numberSlice {
+				value, _ := strconv.Atoi(value)
+				total += value
+			}
+			var addedNumberReturnStruct returnStruct
+			//addedNumber := newOperation.X + newOperation.Y
+			addedNumberReturnStruct.SlackUsername = "Adeben33"
+			addedNumberReturnStruct.Result = total
+			addedNumberReturnStruct.OperationType = newOperation.OperationType
+			addedNumberReturnStruct.OperationType = "addition"
+			c.JSON(200, addedNumberReturnStruct)
+		} else {
+			var addedNumberReturnStruct returnStruct
+			addedNumber := newOperation.X + newOperation.Y
+			addedNumberReturnStruct.SlackUsername = "Adeben33"
+			addedNumberReturnStruct.Result = addedNumber
+			addedNumberReturnStruct.OperationType = newOperation.OperationType
+			addedNumberReturnStruct.OperationType = "addition"
+			c.JSON(200, addedNumberReturnStruct)
+		}
 	} else if strings.Index(newOperation.OperationType, "sub") != -1 {
-		var NumberReturnStruct returnStruct
-		Number := newOperation.X - newOperation.Y
-		NumberReturnStruct.SlackUsername = "Adeben33"
-		NumberReturnStruct.Result = Number
-		NumberReturnStruct.OperationType = newOperation.OperationType
-		NumberReturnStruct.OperationType = "subtraction"
-		c.JSON(200, NumberReturnStruct)
+		re := regexp.MustCompile("[0-9]+")
+		numberSlice := re.FindAllString(string(newOperation.OperationType), -1)
+		if re.MatchString(string(newOperation.OperationType)) {
+			//total := 0
+			//for _, value := range numberSlice {
+			//	value, _ := strconv.Atoi(value)
+			//	total = value - total
+			//}
+			var addedNumberReturnStruct returnStruct
+			Number1, _ := strconv.Atoi(numberSlice[0])
+			Number2, _ := strconv.Atoi(numberSlice[1])
+			addedNumberReturnStruct.SlackUsername = "Adeben33"
+			addedNumberReturnStruct.Result = Number1 - Number2
+			addedNumberReturnStruct.OperationType = newOperation.OperationType
+			addedNumberReturnStruct.OperationType = "subtraction"
+			c.JSON(200, addedNumberReturnStruct)
+		} else {
+			var NumberReturnStruct returnStruct
+			Number := newOperation.X - newOperation.Y
+			NumberReturnStruct.SlackUsername = "Adeben33"
+			NumberReturnStruct.Result = Number
+			NumberReturnStruct.OperationType = newOperation.OperationType
+			NumberReturnStruct.OperationType = "subtraction"
+			c.JSON(200, NumberReturnStruct)
+		}
 	} else if strings.Index(newOperation.OperationType, "mul") != -1 {
-		var NumberReturnStruct returnStruct
-		Number := newOperation.X * newOperation.Y
-		NumberReturnStruct.SlackUsername = "Adeben33"
-		NumberReturnStruct.Result = Number
-		NumberReturnStruct.OperationType = newOperation.OperationType
-		NumberReturnStruct.OperationType = "multiplication"
-		c.JSON(200, NumberReturnStruct)
+		re := regexp.MustCompile("[0-9]+")
+		numberSlice := re.FindAllString(string(newOperation.OperationType), -1)
+		if re.MatchString(string(newOperation.OperationType)) {
+			total := 1
+			for _, value := range numberSlice {
+				value, _ := strconv.Atoi(value)
+				total *= value
+			}
+			var addedNumberReturnStruct returnStruct
+			//addedNumber := newOperation.X + newOperation.Y
+			addedNumberReturnStruct.SlackUsername = "Adeben33"
+			addedNumberReturnStruct.Result = total
+			addedNumberReturnStruct.OperationType = newOperation.OperationType
+			addedNumberReturnStruct.OperationType = "multiplication"
+			c.JSON(200, addedNumberReturnStruct)
+		} else {
+			var NumberReturnStruct returnStruct
+			Number := newOperation.X * newOperation.Y
+			NumberReturnStruct.SlackUsername = "Adeben33"
+			NumberReturnStruct.Result = Number
+			NumberReturnStruct.OperationType = newOperation.OperationType
+			NumberReturnStruct.OperationType = "multiplication"
+			c.JSON(200, NumberReturnStruct)
+		}
 	}
 }
 
